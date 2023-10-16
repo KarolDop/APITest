@@ -8,14 +8,14 @@ import java.util.List;
 
 public class HeadersProject
 {
-    public static Headers AddPet()
+    public static Headers headersAddPet()
     {
-        Header first = new Header("accept", "application/json");
-        Header second = new Header("Content-Type","application/json");
+        Header accept = new Header("accept", "application/json");
+        Header contentType = new Header("Content-Type","application/json");
 
         List<Header> list = new ArrayList<Header>();
-        list.add(first);
-        list.add(second);
+        list.add(accept);
+        list.add(contentType);
 
         return new Headers(list);
     }
