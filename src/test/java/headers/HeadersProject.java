@@ -1,3 +1,6 @@
+//Jezeli mam rozne listy dla hederow lepiej trzymac je w jednej klasie z
+// roznymi metodami czy podzielic na osobne klasy?
+
 package headers;
 
 import io.restassured.http.Header;
