@@ -1,9 +1,8 @@
 package mainTest;
 
-import files.AddPetJson;
 import io.cucumber.java.BeforeAll;
+import io.cucumber.java.BeforeStep;
 import io.restassured.RestAssured;
-import io.restassured.path.json.JsonPath;
 
 public class MainTest
 {
@@ -13,8 +12,9 @@ public class MainTest
         RestAssured.baseURI = "https://petstore.swagger.io/v2";
     }
 
-
-    static JsonPath js = new JsonPath(AddPetJson.price());
-
-
+    @BeforeStep
+    public static void newStepPrint(int stepNo)
+    {
+        System.out.printf("Step %d:\n", stepNo);
+    }
 }
