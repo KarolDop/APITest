@@ -8,9 +8,11 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import mainTest.ComplexJsonParse;
 import mainTest.MainTest;
 import org.example.Pet;
 import files.AddPetJson;
+import org.testng.Assert;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -48,9 +50,9 @@ public class MyStepdefs {
     public void petFromCategoryDogAndNameAzorShouldBeAdded()
     {
         MainTest.newStepPrint(3);
-        Response getPet = given()
-                .headers(HeadersProject.headersAddPet())
-                .get("pet/{0}",idAddPet);
+        Response getPet = given().log().body()
+            .headers(HeadersProject.headersAddPet())
+            .get("pet/{0}",idAddPet);
 
         JsonPath js = getPet.jsonPath();
         BigInteger idGetPet = new BigInteger(js.getString("id"));
@@ -79,54 +81,18 @@ public class MyStepdefs {
     @And("Mock response content count should be {int}")
     public void mockResponseContentCountShouldBe(int arg)
     {
-        MainTest.newStepPrint(4);
-        JsonPath js = new JsonPath(files.AddPetJson.price());
-
-        List<?> content = js.getList("contents");
-
-        if (content.size() == arg)
-        {
-            System.out.println("Pass");
-        }
-        else
-        {
-            System.out.println("Fail");
-        }
+        Assert.assertEquals(ComplexJsonParse.count, arg);
     }
 
     @And("Mocked resp purch amount should be {int}")
     public void mockedRespPurchAmountShouldBe(int arg)
     {
-        MainTest.newStepPrint(5);
-        JsonPath js = new JsonPath(files.AddPetJson.price());
-
-        int purchAmount = js.getInt("dashboard.purchaseAmount");
-
-        if (purchAmount == arg)
-        {
-            System.out.println("Pass");
-        }
-        else
-        {
-            System.out.println("Fail");
-        }
+        Assert.assertEquals(ComplexJsonParse.totalAmount, arg);
     }
 
     @And("First content name should be {word}")
     public void firstContentNameShouldBeRed(String arg)
     {
-        MainTest.newStepPrint(6);
-        JsonPath js = new JsonPath(files.AddPetJson.price());
-
-        String color = js.getString("contents.name[0]");
-        if (arg.equals(color))
-        {
-            System.out.println("Pass");
-        }
-        else
-        {
-            System.out.println("Fail");
-        }
-
+        Assert.assertEquals(ComplexJsonParse.firstName ,arg);
     }
 }
