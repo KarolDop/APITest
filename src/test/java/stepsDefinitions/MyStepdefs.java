@@ -28,7 +28,6 @@ public class MyStepdefs {
     @Given("I have a new pet from category {word} with name {word} that i want add to shop db")
     public void iHaveANewPetFromCategoryPetWithNameAzorThatIWantAddToShopDb(String categoryName, String petName)
     {
-        MainTest.newStepPrint(1);
         MainTest.setUp();
         newPet = new Pet(petName, categoryName);
     }
@@ -36,7 +35,6 @@ public class MyStepdefs {
     @When("I add this pet")
     public void iAddThisPet()
     {
-        MainTest.newStepPrint(2);
         Response addPetResponse = given()
                 .headers(HeadersProject.headersAddPet())
                 .body(AddPetJson.AddPet(newPet))
@@ -49,33 +47,14 @@ public class MyStepdefs {
     @Then("Pet from category dog and name azor should be added")
     public void petFromCategoryDogAndNameAzorShouldBeAdded()
     {
-        MainTest.newStepPrint(3);
-        Response getPet = given().log().body()
+        Response getPet = given()
             .headers(HeadersProject.headersAddPet())
             .get("pet/{0}",idAddPet);
 
         JsonPath js = getPet.jsonPath();
         BigInteger idGetPet = new BigInteger(js.getString("id"));
-        String getName = js.getString("name");
 
-        if (idGetPet.equals(idAddPet))
-        {
-            System.out.println("Pass");
-
-        }
-        else
-        {
-            System.out.println("Fail");
-        }
-
-        if(getName.equals(newPet.getPetName()))
-        {
-            System.out.println("Pass");
-        }
-        else
-        {
-            System.out.println("Fail");
-        }
+        Assert.assertEquals(idGetPet, idAddPet);
     }
 
     @And("Mock response content count should be {int}")
